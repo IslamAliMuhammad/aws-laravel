@@ -25,10 +25,10 @@ Route::post('/upload', function (Request $request) {
     ]);
 
     // Upload file to S3
-    $path = $request->file('file')->store('uploads', 's3');
+    $path = $request->file('file')->store('uploads', env('FILESYSTEM_DISK', 'local'));
 
     // Get file URL
-    $url = Storage::disk('s3')->url($path);
+    $url = Storage::disk(env('FILESYSTEM_DISK', 'local'))->url($path);
 
     return back()->with('url', $url);
 });
